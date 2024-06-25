@@ -1,0 +1,159 @@
+```python
+import pandas as pd
+
+```
+
+
+```python
+file_path = "Resources/budget_data.csv"
+budget_data = pd.read_csv(file_path)
+budget_data.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Profit/Losses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Jan-10</td>
+      <td>1088983</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Feb-10</td>
+      <td>-354534</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mar-10</td>
+      <td>276622</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Apr-10</td>
+      <td>-728133</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>May-10</td>
+      <td>852993</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+total_months = budget_data["Date"].nunique()
+print(total_months)
+```
+
+    86
+    
+
+
+```python
+net_total = budget_data['Profit/Losses'].sum()
+print(net_total)
+```
+
+    22564198
+    
+
+
+```python
+#diff computes differences between each row
+budget_data['Change'] = budget_data['Profit/Losses'].diff()
+average_change = budget_data['Change'].mean()
+print(budget_data['Change'])
+print(average_change)
+```
+
+    0           NaN
+    1    -1443517.0
+    2      631156.0
+    3    -1004755.0
+    4     1581126.0
+            ...    
+    81   -1627245.0
+    82     616795.0
+    83     628522.0
+    84      90895.0
+    85    -224669.0
+    Name: Change, Length: 86, dtype: float64
+    -8311.105882352942
+    
+
+
+```python
+greatest_increase = budget_data['Change'].max()
+greatest_increase_date = budget_data.loc[budget_data['Change'] == greatest_increase, 'Date'].values[0]
+print(greatest_increase)
+print(greatest_increase_date)
+```
+
+    1862002.0
+    Aug-16
+    
+
+
+```python
+greatest_decrease = budget_data['Change'].min()
+greatest_decrease_date = budget_data.loc[budget_data['Change'] == greatest_decrease, 'Date'].values[0]
+print(greatest_decrease)
+print(greatest_decrease_date)
+```
+
+    -1825558.0
+    Feb-14
+    
+
+
+```python
+print("Financial Analysis")
+print("-------------------------")
+print(f"Total Months: {total_months}")
+print(f"Total: ${net_total}")
+print(f"Average Change: ${average_change:.2f}")
+print(f"Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase:.0f})")
+print(f"Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease:.0f})")
+```
+
+    Financial Analysis
+    -------------------------
+    Total Months: 86
+    Total: $22564198
+    Average Change: $-8311.11
+    Greatest Increase in Profits: Aug-16 ($1862002)
+    Greatest Decrease in Profits: Feb-14 ($-1825558)
+    
+
+
+```python
+
+```
